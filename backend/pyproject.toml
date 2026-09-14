@@ -28,6 +28,9 @@ dev = [
 testpaths = ["tests"]
 pythonpath = ["."]
 
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = ["fastapi.Depends", "fastapi.params.Depends"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["backend/dwf"]
 

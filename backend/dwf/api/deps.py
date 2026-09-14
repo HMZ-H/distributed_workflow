@@ -2,8 +2,9 @@ from collections.abc import AsyncGenerator
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
-from sqlalchemy.ext.asyncio import AsyncSession
+from jwt import InvalidTokenError
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from dwf.infrastructure.database.models import User
 from dwf.services.auth_service import AuthService
@@ -29,10 +30,10 @@ async def get_current_user(
     auth_service = AuthService(db, settings)
     try:
         payload = auth_service.decode_token(token)
-    except Exception:
+    except InvalidTokenError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token"
-        )
+        ) from exc
 
     if payload.get("type") != "access":
         raise HTTPException(

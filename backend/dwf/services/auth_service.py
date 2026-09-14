@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
+import jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
-import jwt
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from dwf.infrastructure.database.models import User
 from dwf.settings import Settings
@@ -43,7 +43,7 @@ class AuthService:
         payload = {
             "sub": str(user_id),
             "type": "access",
-            "exp": datetime.now(timezone.utc) + timedelta(minutes=30),
+            "exp": datetime.now(UTC) + timedelta(minutes=30),
         }
         return jwt.encode(payload, self.settings.jwt_secret_key, algorithm="HS256")
 
@@ -51,7 +51,7 @@ class AuthService:
         payload = {
             "sub": str(user_id),
             "type": "refresh",
-            "exp": datetime.now(timezone.utc) + timedelta(days=7),
+            "exp": datetime.now(UTC) + timedelta(days=7),
         }
         return jwt.encode(payload, self.settings.jwt_secret_key, algorithm="HS256")
 
