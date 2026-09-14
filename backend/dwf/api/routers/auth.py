@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from jwt import InvalidTokenError
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -74,10 +75,10 @@ async def refresh(
     auth_service = AuthService(None, settings)
     try:
         payload = auth_service.decode_token(request.refresh_token)
-    except Exception:
+    except InvalidTokenError as exc:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid refresh token"
-        )
+        ) from exc
 
     if payload.get("type") != "refresh":
         raise HTTPException(

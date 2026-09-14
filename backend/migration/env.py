@@ -1,13 +1,12 @@
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from alembic import context
-
-from dwf.settings import Settings
 from dwf.infrastructure.database.models import Base
+from dwf.settings import Settings
 
 config = context.config
 

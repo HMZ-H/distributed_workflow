@@ -3,10 +3,9 @@ from contextlib import asynccontextmanager
 import structlog
 from fastapi import FastAPI
 
-from dwf.settings import Settings
-
 from dwf.infrastructure.database.engine import create_engine, create_session_factory
 from dwf.infrastructure.observability.logging import setup_logging
+from dwf.settings import Settings
 
 logger = structlog.stdlib.get_logger()
 
@@ -15,7 +14,6 @@ logger = structlog.stdlib.get_logger()
 async def lifespan(app: FastAPI):
     settings: Settings = app.state.settings
     setup_logging(settings.log_level)
-
 
     engine = create_engine(settings.database_url)
     app.state.engine = engine
