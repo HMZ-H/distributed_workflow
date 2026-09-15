@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from dwf.api.deps import get_db
+from dwf.api.deps import get_db, get_settings
 from dwf.services.auth_service import AuthService
 from dwf.settings import Settings
 
@@ -33,7 +33,7 @@ class RefreshRequest(BaseModel):
 async def register(
     request: RegisterRequest,
     db: AsyncSession = Depends(get_db),
-    settings: Settings = Depends(),
+    settings: Settings = Depends(get_settings),
 ):
     auth_service = AuthService(db, settings)
     try:
@@ -51,7 +51,7 @@ async def register(
 async def login(
     request: LoginRequest,
     db: AsyncSession = Depends(get_db),
-    settings: Settings = Depends(),
+    settings: Settings = Depends(get_settings),
 ):
     auth_service = AuthService(db, settings)
     user = await auth_service.login(request.email, request.password)
@@ -69,7 +69,7 @@ async def login(
 @router.post("/refresh")
 async def refresh(
     request: RefreshRequest,
-    settings: Settings = Depends(),
+    settings: Settings = Depends(get_settings),
 ):
     auth_service = AuthService(None, settings)
     try:

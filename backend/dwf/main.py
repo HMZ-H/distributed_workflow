@@ -16,7 +16,6 @@ async def lifespan(app: FastAPI):
     settings: Settings = app.state.settings
     setup_logging(settings.log_level)
 
-
     engine = create_engine(settings.database_url)
     app.state.engine = engine
     app.state.session_factory = create_session_factory(engine)
@@ -40,8 +39,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.settings = settings
 
     from dwf.api.routers.health import router as health_router
+    from dwf.api.routers.auth import router as auth_router
 
     app.include_router(health_router)
+    app.include_router(auth_router)
 
     return app
 
