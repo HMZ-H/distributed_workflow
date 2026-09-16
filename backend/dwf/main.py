@@ -39,9 +39,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     from dwf.api.routers.health import router as health_router
     from dwf.api.routers.auth import router as auth_router
+    from dwf.api.routers.workflows import router as workflows_router
 
     app.include_router(health_router)
     app.include_router(auth_router)
+    app.include_router(workflows_router)
 
     return app
 

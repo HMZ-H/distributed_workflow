@@ -1,33 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from jwt import InvalidTokenError
-from pydantic import BaseModel, EmailStr
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from dwf.api.deps import get_db, get_settings
 from dwf.services.auth_service import AuthService
+from dwf.domain.models.user import (
+    RegisterRequest,
+    LoginRequest,
+    TokenResponse,
+    RefreshRequest,
+)
 from dwf.settings import Settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
-
-
-class RegisterRequest(BaseModel):
-    email: EmailStr
-    password: str
-
-
-class LoginRequest(BaseModel):
-    email: EmailStr
-    password: str
-
-
-class TokenResponse(BaseModel):
-    access_token: str
-    refresh_token: str
-    token_type: str = "bearer"
-
-
-class RefreshRequest(BaseModel):
-    refresh_token: str
 
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
