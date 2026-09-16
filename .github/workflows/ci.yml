@@ -27,8 +27,8 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r backend/requirements.txt
-      - run: pip install pytest pytest-asyncio httpx
-      - run: pytest tests/ -v
+      - run: pip install pytest pytest-asyncio httpx aiosqlite
+      - run: cd backend && pytest tests/ -v
 
   docker-build:
     runs-on: ubuntu-latest
