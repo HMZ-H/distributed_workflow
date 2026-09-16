@@ -5,7 +5,7 @@ from sqlalchemy import DateTime, ForeignKey, String, Uuid
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
-from .Base import Base
+from .base import Base
 
 
 class Workflow(Base):

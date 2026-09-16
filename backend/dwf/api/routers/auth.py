@@ -3,13 +3,13 @@ from jwt import InvalidTokenError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from dwf.api.deps import get_db, get_settings
-from dwf.services.auth_service import AuthService
 from dwf.domain.models.user import (
-    RegisterRequest,
     LoginRequest,
-    TokenResponse,
     RefreshRequest,
+    RegisterRequest,
+    TokenResponse,
 )
+from dwf.services.auth_service import AuthService
 from dwf.settings import Settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])

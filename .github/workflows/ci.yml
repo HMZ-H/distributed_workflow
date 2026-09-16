@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install ruff mypy
+      - run: pip install ruff==0.16.6 mypy==2.3.1
       - run: ruff check backend/
       - run: ruff format --check backend/
 
@@ -27,8 +27,12 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r backend/requirements.txt
-      - run: pip install pytest pytest-asyncio httpx
+      - run: pip install pytest pytest-asyncio httpx aiosqlite
       - run: pytest tests/ -v
+        working-directory: backend
+        env:
+          DATABASE_URL: sqlite+aiosqlite:///test.db
+          JWT_SECRET_KEY: ci-test-secret-key
 
   docker-build:
     runs-on: ubuntu-latest

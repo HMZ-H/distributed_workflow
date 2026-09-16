@@ -2,9 +2,9 @@ import pytest
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 
+from dwf.api.deps import get_db
 from dwf.infrastructure.database.models import Base
 from dwf.main import create_app
-from dwf.api.deps import get_db
 from dwf.settings import Settings
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///test.db"
