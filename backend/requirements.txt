@@ -21,7 +21,6 @@ click-plugins==1.1.1.2
 click-repl==0.3.0
 cryptography==50.0.1
 distlib==0.4.3
--e git+https://github.com/HMZ-H/distributed_workflow.git@fc6390159f52dbdfb9f2b84897fd4c42fb5217bf#egg=distributed_workflow&subdirectory=..
 distro==1.9.0
 dnspython==2.8.0
 ecdsa==0.19.2
