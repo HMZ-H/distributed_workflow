@@ -1,0 +1,18 @@
+import api from './client';
+
+export interface TokenResponse {
+  access_token: string;
+  refresh_token: string;
+}
+
+export const authApi = {
+  register(email: string, password: string) {
+    return api.post<TokenResponse>('/auth/register', { email, password });
+  },
+  login(email: string, password: string) {
+    return api.post<TokenResponse>('/auth/login', { email, password });
+  },
+  refresh(refresh_token: string) {
+    return api.post<TokenResponse>('/auth/refresh', { refresh_token });
+  },
+};
